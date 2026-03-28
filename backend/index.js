@@ -2,10 +2,12 @@ const express = require('express')
 const morgan = require('morgan');
 const app = express()
 const cors = require('cors')
+const path = require('path')
 
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
+app.use(express.static('dist'))
 
 let persons = [
     {
@@ -29,10 +31,6 @@ let persons = [
         "number": "39-23-6423122"
     }
 ]
-
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-})
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
@@ -107,6 +105,10 @@ app.get('/info', (request, response) => {
         `<p>Phonebook has info for ${persons.length} people</p>
          <p>${new Date()}</p>`
     )
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
 
 const PORT = process.env.PORT || 3001
