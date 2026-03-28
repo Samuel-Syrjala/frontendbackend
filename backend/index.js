@@ -107,7 +107,7 @@ app.get('/info', (request, response) => {
     )
 })
 
-app.get('*', (req, res) => {
+app.use((req, res) => {
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
 
