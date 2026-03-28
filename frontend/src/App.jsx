@@ -99,7 +99,7 @@ const App = () => {
 
             <Notification message={notificationMessage} type={notificationType} />
 
-            <h3>Add a new</h3>
+            <h3>Add new</h3>
             <PersonForm
                 addPerson={addPerson}
                 newName={newName}
