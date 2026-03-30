@@ -1,3 +1,10 @@
+require('dotenv').config({ path: './backend/.env' })
+const mongoose = require('mongoose')
+mongoose.connect(process.env.MONGODB_URI, { family: 4 })
+    .then(() => console.log('connected to MongoDB'))
+
+
+
 const express = require('express')
 const morgan = require('morgan');
 const app = express()
@@ -81,9 +88,8 @@ app.get('/info', (request, response) => {
 app.use((req, res) => {
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
-
+*/
 const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
- */
