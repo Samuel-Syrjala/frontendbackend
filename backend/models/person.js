@@ -31,6 +31,12 @@ function printAllAndClose() {
         .finally(() => mongoose.connection.close())
 }
 
+Person.getAll = function() {
+    return Person.find({})
+}
+
+module.exports = Person
+
 function printPersonAndClose(id) {
     Person.find({ id: id })
         .then(persons => {

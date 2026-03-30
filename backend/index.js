@@ -5,18 +5,15 @@ const cors = require('cors')
 const path = require('path')
 const Person = require('./models/person')
 
-
-
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static('dist'))
 
-app.get('/api/persons', (request, response) => {
-    response.json(Person.printAllAndClose())
+app.get('/api/persons', (req, res) => {
+    Person.getAll()
+        .then(persons => res.json(persons))
 })
-
-
 
 app.get('/api/persons/:id', (request, response) => {
     const id = request.params.id
