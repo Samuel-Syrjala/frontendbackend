@@ -14,7 +14,7 @@ app.get('/api/persons', (req, res) => {
     Person.getAll()
         .then(persons => res.json(persons))
 })
-
+/*
 app.get('/api/persons/:id', (request, response) => {
     const id = request.params.id
     response.json(Person.printPersonAndClose(id))
@@ -86,3 +86,4 @@ const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
+ */

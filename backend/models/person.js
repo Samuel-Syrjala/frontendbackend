@@ -35,8 +35,6 @@ Person.getAll = function() {
     return Person.find({})
 }
 
-module.exports = Person
-
 function printPersonAndClose(id) {
     Person.find({ id: id })
         .then(persons => {
