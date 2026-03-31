@@ -25,76 +25,70 @@ app.get('/api/persons', async (req, res, next) => {
     }
 })
 
-/*
-app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    response.json(Person.printPersonAndClose(id))
+app.post('/api/persons', async (req, res, next) => {
+    try {
+        const { name, number } = req.body
+
+        if (!name) return res.status(400).json({ error: 'name missing' })
+        if (!number) return res.status(400).json({ error: 'number missing' })
+
+        const person = new Person({ name, number })
+        const saved = await person.save()
+
+        res.status(201).json(saved)
+    } catch (err) {
+        next(err)
+    }
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(p => p.id !== id)
 
-    response.status(204).end()
-})
+    /*
+    app.get('/api/persons/:id', (request, response) => {
+        const id = request.params.id
+        response.json(Person.printPersonAndClose(id))
+    })
+
+    app.delete('/api/persons/:id', (request, response) => {
+        const id = request.params.id
+        persons = persons.filter(p => p.id !== id)
+
+        response.status(204).end()
+    })
 
 
-const generateId = () => {
-    const maxId = persons.length > 0
-        ? Math.max(...persons.map(n => Number(n.id)))
-        : 0
-    return String(maxId + 1)
-}
-
-app.post('/api/persons', (request, response) => {
-
-    const body = request.body
-
-    if (!body.name) {
-        return response.status(400).json({
-            error: 'name missing'
-        })
+    const generateId = () => {
+        const maxId = persons.length > 0
+            ? Math.max(...persons.map(n => Number(n.id)))
+            : 0
+        return String(maxId + 1)
     }
 
-    if (!body.number) {
-        return response.status(400).json({
-            error: 'number missing'
-        })
-    }
 
-    const nameExists = persons.some(p => p.name === body.name)
+        const person = {
+            name: body.name,
+            number: body.number,
+            id: generateId(),
+        }
 
-    if (nameExists) {
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
-    }
+        persons = persons.concat(person)
 
-    const person = {
-        name: body.name,
-        number: body.number,
-        id: generateId(),
-    }
-
-    persons = persons.concat(person)
-
-    response.json(person)
-})
+        response.json(person)
+    })
 
 
-app.get('/info', (request, response) => {
-    response.send(
-        `<p>Phonebook has info for ${persons.length} people</p>
-         <p>${new Date()}</p>`
-    )
-})
+    app.get('/info', (request, response) => {
+        response.send(
+            `<p>Phonebook has info for ${persons.length} people</p>
+             <p>${new Date()}</p>`
+        )
+    })
 
-app.use((req, res) => {
-    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
-})
-*/
+    app.use((req, res) => {
+        res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
+    })
+    */
 
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+    const PORT = process.env.PORT || 3001
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`)
+    })

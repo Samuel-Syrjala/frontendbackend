@@ -13,8 +13,8 @@ if (require.main === module) {
     const mongoose = require('mongoose')
     mongoose.connect(process.env.MONGODB_URI, { family: 4 })
         .then(() => {
-            const name = process.argv[2]
-            const number = process.argv[3]
+            const name = process.argv[3]
+            const number = process.argv[4]
 
             if (!name && !number) {
                 module.exports.find({}).then(persons => {
