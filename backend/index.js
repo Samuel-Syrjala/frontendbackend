@@ -1,6 +1,12 @@
 require('dotenv').config({ path: './backend/.env' })
-const mongoose = require('mongoose')
 
+const Sentry = require('@sentry/node')
+Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.SENTRY_ENVIRONMENT || 'development',
+})
+
+const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGODB_URI, { family: 4 })
     .then(() => console.log('connected to MongoDB'))
 
@@ -11,6 +17,7 @@ const cors = require('cors')
 const path = require('path')
 const Person = require('./models/person')
 
+app.use(Sentry.Handlers.requestHandler())
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
@@ -95,7 +102,9 @@ app.delete('/api/persons/:id', async(req, res, next) => {
     })
     */
 
-    const PORT = process.env.PORT || 3001
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-    })
+app.use(Sentry.Handlers.errorHandler())
+
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
