@@ -1,13 +1,10 @@
 require('dotenv').config({ path: './backend/.env' })
 
 const Sentry = require('@sentry/node')
-
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: process.env.SENTRY_ENVIRONMENT || 'development',
-    integrations: [
-        Sentry.expressIntegration(),
-    ],
+    integrations: [Sentry.expressIntegration()],
 })
 
 const mongoose = require('mongoose')
@@ -16,16 +13,14 @@ mongoose.connect(process.env.MONGODB_URI, { family: 4 })
 
 const express = require('express')
 const morgan = require('morgan')
-const app = express()
 const cors = require('cors')
-const path = require('path')
+const app = express()
+
 const Person = require('./models/person')
 
-app.use(Sentry.expressRequestHandler())
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
-app.use(express.static('dist'))
 
 app.get('/api/persons', async (req, res, next) => {
     try {
