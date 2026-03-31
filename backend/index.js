@@ -17,7 +17,7 @@ const cors = require('cors')
 const path = require('path')
 const Person = require('./models/person')
 
-app.use(Sentry.Handlers.requestHandler())
+app.use(Sentry.expressRequestHandler())
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
@@ -105,7 +105,17 @@ app.get('/api/debug-sentry', (req, res) => {
     })
     */
 
-app.use(Sentry.Handlers.errorHandler())
+app.use(Sentry.expressErrorHandler())
+
+app.use((err, req, res, next) => {
+    console.error(err)
+
+    if (err.name === 'CastError') {
+        return res.status(400).json({ error: 'malformatted id' })
+    }
+
+    return res.status(500).json({ error: 'internal server error' })
+})
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
