@@ -61,6 +61,9 @@ app.delete('/api/persons/:id', async(req, res, next) => {
     }
 })
 
+app.get('/api/debug-sentry', (req, res) => {
+    throw new Error('Sentry test error')
+})
 
     /*
     app.get('/api/persons/:id', (request, response) => {
