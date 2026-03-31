@@ -41,6 +41,19 @@ app.post('/api/persons', async (req, res, next) => {
     }
 })
 
+app.delete('/api/persons/:id', async(req, res, next) => {
+    try {
+        const id = req.params.id
+        const deleted = await Person.findByIdAndDelete(id)
+
+        if (!deleted) return res.status(404).json({ error: 'person not found' })
+
+        return res.status(204).end()
+    } catch (err) {
+        next(err)
+    }
+})
+
 
     /*
     app.get('/api/persons/:id', (request, response) => {
@@ -48,12 +61,6 @@ app.post('/api/persons', async (req, res, next) => {
         response.json(Person.printPersonAndClose(id))
     })
 
-    app.delete('/api/persons/:id', (request, response) => {
-        const id = request.params.id
-        persons = persons.filter(p => p.id !== id)
-
-        response.status(204).end()
-    })
 
 
     const generateId = () => {
