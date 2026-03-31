@@ -1,6 +1,9 @@
 require('dotenv').config({ path: './backend/.env' })
 
 const Sentry = require('@sentry/node')
+const { sentryExpressMiddleware } = require('@sentry/express')
+console.log('Sentry keys:', Object.keys(Sentry))
+console.log('Sentry.Handlers:', Sentry.Handlers)
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: process.env.SENTRY_ENVIRONMENT || 'development',
