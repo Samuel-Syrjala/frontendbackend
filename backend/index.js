@@ -16,9 +16,13 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static('dist'))
 
-app.get('/api/persons', (req, res) => {
-    Person.getAll()
-        .then(persons => res.json(persons))
+app.get('/api/persons', async (req, res, next) => {
+    try {
+        const persons = await Person.find({})
+        res.json(persons)
+    } catch (err) {
+        next(err)
+    }
 })
 
 /*
